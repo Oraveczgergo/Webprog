@@ -4,7 +4,9 @@ let code = "";
 let currentGuessPosition = 0;
 let currentMainPosition = 0;
 let colors = [];
+let tmpColors = [];
 let secretCode = [];
+let tmpSecretCode = [];
 let pegs = [];
 
 function getRandom(min, max) {
@@ -16,9 +18,9 @@ function generateSecret() {
         secretCode[i] = getRandom(0, 5);
     }
     setCode(secretCode);
-    document.getElementById("secret").innerHTML = code;
-    code = "";
     console.log(secretCode);
+    document.getElementById("secret").innerHTML = code;
+    code = "";    
 }
 
 function setColor(color) {
@@ -59,15 +61,27 @@ function winCheck() {
 }
 
 function setPegs() {
+    for (let i = 0; i < 4; i++) {
+        tmpSecretCode[i] = secretCode[i];
+        tmpColors[i] = colors[i];
+    }
     let white = 0;
     let black = 0;
     for (let i = 0; i < 4; i++) {
-        if (colors[i] === secretCode[i]) {
+        if (tmpColors[i] === tmpSecretCode[i]) {
+            tmpColors[i] = 6;
+            tmpSecretCode[i] = 6;
             white++;
         }
-        else if (secretCode.includes(colors[i])) {
-            black++;
-            //Ez csak akkor működik jól, ha nincs ismétlődés a színekben
+    }
+    for (let i = 0; i < 4; i++) {
+        if (tmpColors[i] == 6) continue;
+        for (var j = 0; j < 4; j++) {
+            if (tmpColors[i] === tmpSecretCode[j]) {
+                black++;
+                tmpSecretCode[j] = 6;
+                break;
+            }
         }
     }
     for (let i = 0; i < white; i++) {
