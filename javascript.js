@@ -12,10 +12,11 @@ const tmpSecretCode = [];
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
-function setCode(col) {
+
+function setCode(color) {
   code = '';
   for (let i = 0; i < 4; i += 1) {
-    switch (col[i]) {
+    switch (color[i]) {
       case 0:
         code += '<div class="cell" style="background-color: red;"></div>';
         break;
