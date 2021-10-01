@@ -1,7 +1,9 @@
 let lose = false;
 let win = false;
-/** Html kódot tárol. */
-let code = '';
+/** Html elemet tárol */
+let element = document.createElement('div');
+/** Ideiglenes HTML elem tároló, ebben rakom össze a div-eket amik az element-be kerülnek */
+let tmpElement = document.createElement('div');
 /** A betippelt kódsorozat jelenlegi értékének indexét tárolja. */
 let currentGuessPosition = 0;
 /** A tippeket tartalmazó sor indexét tárolja ahova következőnek kerülni fognak a színek */
@@ -27,36 +29,39 @@ function getRandom(min, max) {
 }
 
 /**
- * A megadott számokat tartalmazó tömb alapján előállítja és kiírja a megfelelő színeket
- * reprezentáló html kódot a code nevű változóba.
+ * A megadott számokat tartalmazó tömb alapján előállítja és kiírja a megfelelő
+ * HTML element-et az element változóba.
  * A sorok illetve a megoldás megjelenítésére használt.
  * @param {int[]} color -tömb ami a színeket reprezentáló számokat tartalmazza
  */
 function setCode(color) {
-  code = '';
+  element = document.createElement('div');
   for (let i = 0; i < 4; i += 1) {
+    tmpElement = document.createElement('div');
+    tmpElement.className = 'cell';
     switch (color[i]) {
       case 0:
-        code += '<div class="cell" style="background-color: red;"></div>';
+        tmpElement.style.backgroundColor = 'red';
         break;
       case 1:
-        code += '<div class="cell" style="background-color: blue;"></div>';
+        tmpElement.style.backgroundColor = 'blue';
         break;
       case 2:
-        code += '<div class="cell" style="background-color: yellow;"></div>';
+        tmpElement.style.backgroundColor = 'yellow';
         break;
       case 3:
-        code += '<div class="cell" style="background-color: green;"></div>';
+        tmpElement.style.backgroundColor = 'green';
         break;
       case 4:
-        code += '<div class="cell" style="background-color: orange;"></div>';
+        tmpElement.style.backgroundColor = 'orange';
         break;
       case 5:
-        code += '<div class="cell" style="background-color: pink;"></div>';
+        tmpElement.style.backgroundColor = 'pink';
         break;
       default:
         break;
     }
+    element.appendChild(tmpElement);
   }
 }
 
@@ -69,44 +74,44 @@ function generateSecret() {
   }
   setCode(secretCode);
   console.log(secretCode);
-  document.getElementById('secret').innerHTML = code;
-  code = '';
+  document.getElementById('secret').appendChild(element);
 }
 
 /**
- * A html kódot állítja elő ami a gombok lenyomására azonnal megjeleníti a megfelelő színt,
+ * A html element-et állítja elő ami a gombok lenyomására azonnal megjeleníti a megfelelő színt,
  * valamint beállítja a colors tömb értkékeit is, a lenyomott gomb alapján.
  * @param {int} color -A szám amit a gombok adnak át lenyomáskor, egy színt reprezentál
  */
 // eslint-disable-next-line no-unused-vars
 function setColor(color) {
   if (currentGuessPosition < 4 && lose === false) {
-    let guess = '';
+    element = document.createElement('div');
+    element.className = 'cell';
     colors[currentGuessPosition] = color;
     currentGuessPosition += 1;
     switch (color) {
       case 0:
-        guess += '<div class="cell" style="background-color: red;"></div>';
+        element.style.backgroundColor = 'red';
         break;
       case 1:
-        guess += '<div class="cell" style="background-color: blue;"></div>';
+        element.style.backgroundColor = 'blue';
         break;
       case 2:
-        guess += '<div class="cell" style="background-color: yellow;"></div>';
+        element.style.backgroundColor = 'yellow';
         break;
       case 3:
-        guess += '<div class="cell" style="background-color: green;"></div>';
+        element.style.backgroundColor = 'green';
         break;
       case 4:
-        guess += '<div class="cell" style="background-color: orange;"></div>';
+        element.style.backgroundColor = 'orange';
         break;
       case 5:
-        guess += '<div class="cell" style="background-color: pink;"></div>';
+        element.style.backgroundColor = 'pink';
         break;
       default:
         break;
     }
-    document.getElementById('guess').innerHTML += guess;
+    document.getElementById('guess').appendChild(element);
   }
 }
 
@@ -125,8 +130,8 @@ function winCheck() {
 }
 
 /**
- * A code változóhoz hozzáadja a megfelelő peg-eket megjelenítő html kódot.
- *  Külön tmp változókat használ, mert módosítja őket ellenőrzés közben.
+ * Az element változóhoz hozzáadja a peg-eket ábrázoló div-eket.
+ * Külön tmp változókat használ, mert módosítja őket ellenőrzés közben.
  */
 function setPegs() {
   for (let i = 0; i < 4; i += 1) {
@@ -154,16 +159,22 @@ function setPegs() {
     }
   }
   for (let i = 0; i < white; i += 1) {
-    code += '<div class="peg" style="background-color: white;"></div>';
+    tmpElement = document.createElement('div');
+    tmpElement.className = 'peg';
+    tmpElement.style.backgroundColor = 'white';
+    element.appendChild(tmpElement);
   }
   for (let i = 0; i < black; i += 1) {
-    code += '<div class="peg" style="background-color: black;"></div>';
+    tmpElement = document.createElement('div');
+    tmpElement.className = 'peg';
+    tmpElement.style.backgroundColor = 'black';
+    element.appendChild(tmpElement);
   }
 }
 
 /**
  * A submit gomb lenyomásakor fut le.
- * Megjeleníti a code változóban található html kódot a megfelelő sorban.
+ * Megjeleníti az element változó tartalmát a megfelelő sorban.
  * Ha nem megfelelő a colors tömb mérete, vagy már nyert a játékos,
  * nem tesz semmit, és visszatér.
  * Leellenőrzi, hogy nyert, vagy vesztett a játékos.
@@ -180,7 +191,7 @@ function Submit() {
   }
   setCode(colors);
   setPegs();
-  document.getElementById(currentMainPosition).innerHTML = code;
+  document.getElementById(currentMainPosition).appendChild(element);
   document.getElementById('guess').innerHTML = '';
   colors.length = 0;
   currentGuessPosition = 0;
