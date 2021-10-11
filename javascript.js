@@ -17,6 +17,7 @@ const secretCode = [];
 /** Tömb ami egy színeketet reprezentáló szám sorozatot tárol */
 const tmpSecretCode = [];
 // const pegs = [];
+const colorNames = ['red', 'blue', 'yellow', 'green', 'orange', 'pink'];
 
 /**
  * Random szám generátor
@@ -39,28 +40,7 @@ function setCode(color) {
   for (let i = 0; i < 4; i += 1) {
     tmpElement = document.createElement('div');
     tmpElement.className = 'cell';
-    switch (color[i]) {
-      case 0:
-        tmpElement.style.backgroundColor = 'red';
-        break;
-      case 1:
-        tmpElement.style.backgroundColor = 'blue';
-        break;
-      case 2:
-        tmpElement.style.backgroundColor = 'yellow';
-        break;
-      case 3:
-        tmpElement.style.backgroundColor = 'green';
-        break;
-      case 4:
-        tmpElement.style.backgroundColor = 'orange';
-        break;
-      case 5:
-        tmpElement.style.backgroundColor = 'pink';
-        break;
-      default:
-        break;
-    }
+    tmpElement.style.backgroundColor = colorNames[color[i]];
     element.appendChild(tmpElement);
   }
 }
@@ -89,28 +69,7 @@ function setColor(color) {
     element.className = 'cell';
     colors[currentGuessPosition] = color;
     currentGuessPosition += 1;
-    switch (color) {
-      case 0:
-        element.style.backgroundColor = 'red';
-        break;
-      case 1:
-        element.style.backgroundColor = 'blue';
-        break;
-      case 2:
-        element.style.backgroundColor = 'yellow';
-        break;
-      case 3:
-        element.style.backgroundColor = 'green';
-        break;
-      case 4:
-        element.style.backgroundColor = 'orange';
-        break;
-      case 5:
-        element.style.backgroundColor = 'pink';
-        break;
-      default:
-        break;
-    }
+    element.style.backgroundColor = colorNames[color];
     document.getElementById('guess').appendChild(element);
   }
 }
@@ -180,7 +139,7 @@ function setPegs() {
  * Leellenőrzi, hogy nyert, vagy vesztett a játékos.
  */
 // eslint-disable-next-line no-unused-vars
-function Submit() {
+function submit() {
   if (win === true) {
     return;
   }
