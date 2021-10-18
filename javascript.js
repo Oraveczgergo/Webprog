@@ -18,6 +18,10 @@ const secretCode = [];
 const tmpSecretCode = [];
 // const pegs = [];
 const colorNames = ['red', 'blue', 'yellow', 'green', 'orange', 'pink'];
+const modalBg = document.querySelector('.modal-bg');
+const modalLose = document.querySelector('.modal-lose');
+const modalWin = document.querySelector('.modal-win');
+const modalErr = document.querySelector('.modal-err');
 
 /**
  * Random szám generátor
@@ -27,6 +31,13 @@ const colorNames = ['red', 'blue', 'yellow', 'green', 'orange', 'pink'];
  */
 function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+// eslint-disable-next-line no-unused-vars
+function closeModal() {
+  /* modalBg.removeEventListener('click'); */
+  modalBg.classList.remove('modal-active');
+  modalErr.classList.remove('modal-active');
 }
 
 /**
@@ -145,7 +156,9 @@ function submit() {
   }
   winCheck();
   if (colors.length < 4) {
-    window.alert('Töltsd ki a színeket előbb');
+    modalBg.classList.add('modal-active');
+    modalErr.classList.add('modal-active');
+    /* modalErr.addEventListener('click', closeModal()); */
     return;
   }
   setCode(colors);
@@ -156,14 +169,16 @@ function submit() {
   currentGuessPosition = 0;
   currentMainPosition += 1;
   if (currentMainPosition > 9 && win === false) {
-    window.alert('Vesztettél!');
+    modalBg.classList.add('modal-active');
+    modalLose.classList.add('modal-active');
     document.getElementById('secret').style.display = 'block';
     lose = true;
     return;
   }
   if (win === true) {
     document.getElementById('secret').style.display = 'block';
-    window.alert('Nyertél!');
+    modalBg.classList.add('modal-active');
+    modalWin.classList.add('modal-active');
   }
 }
 

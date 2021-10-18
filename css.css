@@ -163,3 +163,77 @@ html {
     border-radius: 50%;
     float: left;
 }
+
+.modal-bg {   
+    font-size: 3rem; 
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    top: 0;
+    left: 0;
+    display: flex;
+    background-color: rgba(0, 0, 0, .5);
+    justify-content: center;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0;
+    transition: visibility 0s, opacity 0.5s;
+}
+
+.modal-active {
+    visibility: visible !important; 
+    opacity: 1 !important;
+}
+
+.modal-lose {
+    visibility: hidden;
+    opacity: 0;
+    border: 5px solid black;
+    border-radius: 10px;
+    position: fixed;
+    background-color: lightgray;
+    width: 25%;
+    height: 25%;
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-win {
+    visibility: hidden;
+    opacity: 0;
+    border: 5px solid black;
+    border-radius: 10px;
+    position: fixed;
+    background-color: lightgray;
+    width: 25%;
+    height: 25%;
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    flex-direction: column;
+}
+
+.modal-err {
+    font-size: 1.5rem;
+    visibility: hidden;
+    opacity: 0;
+    border: 5px solid black;
+    border-radius: 10px;
+    position: fixed;
+    background-color: lightgray;
+    width: 25%;
+    height: 25%;
+    display: flex;
+    justify-content: space-around; 
+    align-items: center;
+    flex-direction: column;
+}
+
+.bClose {
+    font-weight: bold;
+    height: 3rem;
+    width: 6rem;
+    background-color: white;
+}
