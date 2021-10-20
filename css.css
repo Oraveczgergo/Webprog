@@ -98,27 +98,27 @@ html {
     float: left;
 }
 
-.bRed {
+.color1 {
     background-color: red;
 }
 
-.bBlue {
+.color2 {
     background-color: blue;
 }
 
-.bYellow {
+.color3 {
     background-color: yellow;
 }
 
-.bGreen {
+.color4 {
     background-color: green;
 }
 
-.bOrange {
+.color5 {
     background-color: orange;
 }
 
-.bPink {
+.color6 {
     background-color: pink;
 }
 
