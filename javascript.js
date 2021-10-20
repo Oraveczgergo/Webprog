@@ -26,7 +26,7 @@ const modalLose = document.querySelector('.modal-lose');
 const modalWin = document.querySelector('.modal-win');
 /** Szín kitöltés hiba esetén megjelenő modal dialog */
 const modalErr = document.querySelector('.modal-err');
-const numberOfGuesses = 10;
+const numberOfGuesses = 12;
 /**
  * Random szám generátor
  * @param {int} min alsó határ
@@ -46,7 +46,7 @@ function closeModal() {
 
 /** A tippeket tartalmazó sorokat generálja le az element változó használatával */
 function generateGuessRows() {
-  for (let i = 0; i < numberOfGuesses; i += 1) {
+  for (let i = numberOfGuesses - 1; i >= 0; i -= 1) {
     element = document.createElement('div');
     element.className = 'row';
     element.id = i;
@@ -181,7 +181,7 @@ function submit() {
   colors.length = 0;
   currentGuessPosition = 0;
   currentMainPosition += 1;
-  if (currentMainPosition > 9 && win === false) {
+  if (currentMainPosition > numberOfGuesses - 1 && win === false) {
     modalBg.classList.add('modal-active');
     modalLose.classList.add('modal-active');
     document.getElementById('secret').style.display = 'block';
