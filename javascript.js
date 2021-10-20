@@ -16,11 +16,15 @@ const tmpColors = [];
 const secretCode = [];
 /** Tömb ami egy színeketet reprezentáló szám sorozatot tárol */
 const tmpSecretCode = [];
-// const pegs = [];
+/** A színek neveit tartalmazó tömb */
 const colorNames = ['red', 'blue', 'yellow', 'green', 'orange', 'pink'];
+/** A modal dialog sötítített háttere */
 const modalBg = document.querySelector('.modal-bg');
+/** A játék elvesztésekor megjelenő modal dialog */
 const modalLose = document.querySelector('.modal-lose');
+/** A játék megnyerésekor megjelenő modal dialog */
 const modalWin = document.querySelector('.modal-win');
+/** Szín kitöltés hiba esetén megjelenő modal dialog */
 const modalErr = document.querySelector('.modal-err');
 
 /**
@@ -33,9 +37,9 @@ function getRandom(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
+/** A kitöltési hiba modal dialog-ot zárja be. Az ott megnyomott gomb hívja meg. */
 // eslint-disable-next-line no-unused-vars
 function closeModal() {
-  /* modalBg.removeEventListener('click'); */
   modalBg.classList.remove('modal-active');
   modalErr.classList.remove('modal-active');
 }
@@ -64,7 +68,7 @@ function generateSecret() {
     secretCode[i] = getRandom(0, 5);
   }
   setCode(secretCode);
-  console.log(secretCode);
+  /* console.log(secretCode); */
   document.getElementById('secret').appendChild(element);
 }
 
@@ -108,33 +112,33 @@ function setPegs() {
     tmpSecretCode[i] = secretCode[i];
     tmpColors[i] = colors[i];
   }
-  let white = 0;
-  let black = 0;
+  let fullMatch = 0;
+  let partialMatch = 0;
   for (let i = 0; i < 4; i += 1) {
     if (tmpColors[i] === tmpSecretCode[i]) {
       tmpColors[i] = 6;
       tmpSecretCode[i] = 6;
-      white += 1;
+      fullMatch += 1;
     }
   }
   for (let i = 0; i < 4; i += 1) {
     if (tmpColors[i] !== 6) {
       for (let j = 0; j < 4; j += 1) {
         if (tmpColors[i] === tmpSecretCode[j]) {
-          black += 1;
+          partialMatch += 1;
           tmpSecretCode[j] = 6;
           break;
         }
       }
     }
   }
-  for (let i = 0; i < white; i += 1) {
+  for (let i = 0; i < fullMatch; i += 1) {
     tmpElement = document.createElement('div');
     tmpElement.className = 'peg';
     tmpElement.style.backgroundColor = 'white';
     element.appendChild(tmpElement);
   }
-  for (let i = 0; i < black; i += 1) {
+  for (let i = 0; i < partialMatch; i += 1) {
     tmpElement = document.createElement('div');
     tmpElement.className = 'peg';
     tmpElement.style.backgroundColor = 'black';
