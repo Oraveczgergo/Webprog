@@ -26,7 +26,7 @@ const modalLose = document.querySelector('.modal-lose');
 const modalWin = document.querySelector('.modal-win');
 /** Szín kitöltés hiba esetén megjelenő modal dialog */
 const modalErr = document.querySelector('.modal-err');
-
+const numberOfGuesses = 10;
 /**
  * Random szám generátor
  * @param {int} min alsó határ
@@ -42,6 +42,16 @@ function getRandom(min, max) {
 function closeModal() {
   modalBg.classList.remove('modal-active');
   modalErr.classList.remove('modal-active');
+}
+
+/** A tippeket tartalmazó sorokat generálja le az element változó használatával */
+function generateGuessRows() {
+  for (let i = 0; i < numberOfGuesses; i += 1) {
+    element = document.createElement('div');
+    element.className = 'row';
+    element.id = i;
+    document.getElementById('main').appendChild(element);
+  }
 }
 
 /**
@@ -162,7 +172,6 @@ function submit() {
   if (colors.length < 4) {
     modalBg.classList.add('modal-active');
     modalErr.classList.add('modal-active');
-    /* modalErr.addEventListener('click', closeModal()); */
     return;
   }
   setCode(colors);
@@ -185,5 +194,5 @@ function submit() {
     modalWin.classList.add('modal-active');
   }
 }
-
+generateGuessRows();
 generateSecret();
