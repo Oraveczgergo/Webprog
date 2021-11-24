@@ -31,7 +31,7 @@ html {
     background-color: gray;
 }
 
-.main {
+.rows {
     width: 60%;
     height: 100%;
     background-color: var(--background);
