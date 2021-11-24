@@ -5,7 +5,7 @@ let element = document.createElement('div');
 /** Ideiglenes HTML elem tároló, ebben rakom össze a div-eket amik az element-be kerülnek */
 let tmpElement = document.createElement('div');
 /** A betippelt kódsorozat jelenlegi értékének indexét tárolja. */
-let currentGuessPosition = 0;
+let GuessIndex = 0;
 /** A tippeket tartalmazó sor indexét tárolja ahova következőnek kerülni fognak a színek */
 let currentMainPosition = 0;
 /** Tömb ami egy színeketet reprezentáló szám sorozatot tárol */
@@ -26,7 +26,7 @@ const modalLose = document.querySelector('.modal-lose');
 const modalWin = document.querySelector('.modal-win');
 /** Szín kitöltés hiba esetén megjelenő modal dialog */
 const modalErr = document.querySelector('.modal-err');
-const numberOfGuesses = 12;
+const numberOfGuesses = 10;
 /**
  * Random szám generátor
  * @param {int} min alsó határ
@@ -46,7 +46,7 @@ function closeModal() {
 
 /** A tippeket tartalmazó sorokat generálja le az element változó használatával */
 function generateGuessRows() {
-  for (let i = numberOfGuesses - 1; i >= 0; i -= 1) {
+  for (let i = numberOfGuesses - 1; i >= 0; i--) {
     element = document.createElement('div');
     element.className = 'row';
     element.id = i;
@@ -62,7 +62,7 @@ function generateGuessRows() {
  */
 function setCode(color) {
   element = document.createElement('div');
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 4; i++) {
     tmpElement = document.createElement('div');
     tmpElement.className = 'cell';
     tmpElement.style.backgroundColor = colorNames[color[i]];
@@ -74,7 +74,7 @@ function setCode(color) {
  * Előállítja a titkos kódot amit ki kell majd találni
  */
 function generateSecret() {
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 4; i++) {
     secretCode[i] = getRandom(0, 5);
   }
   setCode(secretCode);
@@ -89,11 +89,11 @@ function generateSecret() {
  */
 // eslint-disable-next-line no-unused-vars
 function setColor(color) {
-  if (currentGuessPosition < 4 && lose === false) {
+  if (GuessIndex < 4 && lose === false) {
     element = document.createElement('div');
     element.className = 'cell';
-    colors[currentGuessPosition] = color;
-    currentGuessPosition += 1;
+    colors[GuessIndex] = color;
+    GuessIndex += 1;
     element.style.backgroundColor = colorNames[color];
     document.getElementById('guess').appendChild(element);
   }
@@ -105,7 +105,7 @@ function setColor(color) {
  * egyébként nem tesz semmit és visszatér.
  */
 function winCheck() {
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 4; i++) {
     if (colors[i] !== secretCode[i]) {
       return;
     }
@@ -118,37 +118,37 @@ function winCheck() {
  * Külön tmp változókat használ, mert módosítja őket ellenőrzés közben.
  */
 function setPegs() {
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 4; i++) {
     tmpSecretCode[i] = secretCode[i];
     tmpColors[i] = colors[i];
   }
   let fullMatch = 0;
   let partialMatch = 0;
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 4; i++) {
     if (tmpColors[i] === tmpSecretCode[i]) {
       tmpColors[i] = 6;
       tmpSecretCode[i] = 6;
-      fullMatch += 1;
+      fullMatch++;
     }
   }
-  for (let i = 0; i < 4; i += 1) {
+  for (let i = 0; i < 4; i++) {
     if (tmpColors[i] !== 6) {
-      for (let j = 0; j < 4; j += 1) {
+      for (let j = 0; j < 4; j++) {
         if (tmpColors[i] === tmpSecretCode[j]) {
-          partialMatch += 1;
+          partialMatch++;
           tmpSecretCode[j] = 6;
           break;
         }
       }
     }
   }
-  for (let i = 0; i < fullMatch; i += 1) {
+  for (let i = 0; i < fullMatch; i++) {
     tmpElement = document.createElement('div');
     tmpElement.className = 'peg';
     tmpElement.style.backgroundColor = 'white';
     element.appendChild(tmpElement);
   }
-  for (let i = 0; i < partialMatch; i += 1) {
+  for (let i = 0; i < partialMatch; i++) {
     tmpElement = document.createElement('div');
     tmpElement.className = 'peg';
     tmpElement.style.backgroundColor = 'black';
@@ -179,7 +179,7 @@ function submit() {
   document.getElementById(currentMainPosition).appendChild(element);
   document.getElementById('guess').innerHTML = '';
   colors.length = 0;
-  currentGuessPosition = 0;
+  GuessIndex = 0;
   currentMainPosition += 1;
   if (currentMainPosition > numberOfGuesses - 1 && win === false) {
     modalBg.classList.add('modal-active');
